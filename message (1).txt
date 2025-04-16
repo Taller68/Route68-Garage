@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruta 68 Garage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+    body {
+      background-color: #2e2e2e;
+      color: #f4f4f4;
+      overflow-x: hidden;
+    }
+
+    /* Cursor flecha en todos los textos */
+    h1, h2, h3, p, li, .intro, .procedimiento, .formulario-acceso {
+      cursor: default;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ff6600;
+      letter-spacing: 2px;
+      transition: all 0.4s ease-in-out;
+      cursor: default;
+    }
+    header h1:hover {
+      color: #ffa84c;
+      text-shadow: 0 0 5px #ff6600, 0 0 10px #ff6600, 0 0 20px #ff6600, 0 0 40px #ff6600;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      background: #111;
+      padding: 1rem;
+    }
+    nav a {
+      color: #f4f4f4;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    nav a:hover {
+      color: #ff6600;
+    }
+
+    .section {
+      display: none;
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .section.active {
+      display: block;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #ff6600;
+    }
+    p {
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .gallery, .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+    .gallery img, .products img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .service-card, .product-card {
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 250px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #ff6600;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 1rem;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #e65c00;
+    }
+
+    .carousel-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      width: 300px;
+      height: 200px;
+      border-radius: 10px;
+    }
+
+    .carousel img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 1s ease-in-out;
+      border: 3px solid #ff6600;
+      border-radius: 10px;
+    }
+
+    .carousel img.active {
+      opacity: 1;
+    }
+
+    .carousel img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff6600;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #ff6600;
+      font-size: 0.9rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    .logo-grande {
+      max-width: 300px;
+      width: 100%;
+      display: block;
+      margin: 2rem auto 0 auto;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: fadeZoomIn 1.5s ease-out forwards;
+    }
+
+    @keyframes fadeZoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .services {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 1.5rem;
+      padding-bottom: 1rem;
+    }
+    .services img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .services::-webkit-scrollbar {
+      height: 8px;
+    }
+    .services::-webkit-scrollbar-thumb {
+      background: #ff6600;
+      border-radius: 4px;
+    }
+
+    /* NUEVO: Estilos para sección ÚNETE */
+    .equipo-card {
+      background-color: #1f1f1f;
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+      animation: fadeInUp 1s ease;
+    }
+
+    .equipo-card h2 {
+      font-size: 2.2rem;
+      color: #ff6600;
+      margin-bottom: 1rem;
+    }
+
+    .equipo-card .intro {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+    }
+
+    .procedimiento h3,
+    .formulario-acceso h3 {
+      color: #ffa84c;
+      margin-bottom: 0.8rem;
+      font-size: 1.3rem;
+    }
+
+    .procedimiento ol {
+      text-align: left;
+      padding-left: 1.5rem;
+      color: #ddd;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .formulario-acceso {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ruta 68 Garage</h1>
+  </header>
+
+  <nav>
+    <a onclick="mostrarSeccion('inicio')">Inicio</a>
+    <a onclick="mostrarSeccion('equipo')">Únete</a>
+    <a onclick="mostrarSeccion('productos')">Productos</a>
+    <a onclick="mostrarSeccion('servicios')">Servicios</a>
+    <a onclick="mostrarSeccion('especialidad')">Especialidad</a>
+  </nav>
+
+  <div id="inicio" class="section active">
+    <h2>Bienvenido a Ruta 68 Garage</h2>
+    <p>Ruta 68 Garage es un taller especializado en tuneos y reparaciones de vehículos, situado en la Ruta 68, en Sandy Shores, Condado de Blaine. Nos dedicamos a dar personalidad, potencia y estilo a tu coche, con modificaciones a medida y un servicio mecánico de confianza. Ya sea que busques destacar en la carretera o necesites dejar tu vehículo como nuevo, en Ruta 68 Garage estamos preparados para ayudarte</p>
+    <div class="gallery">
+      <img src="Post_ruta_3.gif" alt="Taller 1">
+      <img src="postIG.gif" alt="Taller 2">
+      <img src="Post ruta.gif" alt="Taller 3">
+    </div>
+    <img src="LOGO.png" alt="Logo grande Ruta 68" class="logo-grande">
+  </div>
+
+  <!-- SECCIÓN ÚNETE REDISEÑADA -->
+  <div id="equipo" class="section">
+    <div class="equipo-card">
+      <h2>ÚNETE A NUESTRO EQUIPO</h2>
+      <p class="intro">
+        ¿Eres fan de los coches y la mecánica? ¿Quieres adquirir experiencia en el sector?
+        <br><strong>Ruta 68 Garage</strong> es tu sitio. Aquí podrás aprender del oficio o aumentar tu conocimiento sobre la mecánica.
+      </p>
+      <div class="procedimiento">
+        <h3>📋 PROCEDIMIENTO DE SELECCIÓN</h3>
+        <ol>
+          <li><strong>Paso 1:</strong> Rellena el formulario que encontrarás al final de esta sección.</li>
+          <li><strong>Paso 2:</strong> Si tu formulario es aceptado, serás contactado dentro de las 48 horas por llamada. Si no eres seleccionado, no recibirás contacto.</li>
+          <li><strong>Paso 3:</strong> Se agendará una entrevista. Tras evaluarte, recibirás respuesta en un plazo máximo de 24 horas.</li>
+        </ol>
+      </div>
+      <div class="formulario-acceso">
+        <h3>📝 FORMULARIO DE ACCESO</h3>
+        <a href="https://forms.gle/ovZwmGciZqcrkAmx8" class="btn" target="_blank">Postula Aquí</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="productos" class="section">
+    <h2>Productos</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="pngtree-prevention-of-new-coronavirus-pneumonia-disinfectant-cleaning-supplies-illustration-png-image_4077464-removebg-preview.png" alt="Producto 1">
+        <h3>KIT DE LIMPIEZA</h3>
+        <p>Incluye un spray especializado en carrocerias de vehiculos y un trapo de microfibra para dejar tu coche reluciente</p>
+      </div>
+      <div class="product-card">
+        <img src="istockphoto-962524276-612x612-removebg-preview.png" alt="Producto 2">
+        <h3>SPRAYS DE PINTURA</h3>
+        <p>Expresa tus sentimientos con arte usando nuestros sprays de pintura de primera calidad.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="servicios" class="section">
+    <h2>Servicios</h2>
+    <div class="services">
+      <div class="service-card">
+        <img src="Grua.jpg" alt="Servicio de Grúa">
+        <h3>Servicio de Grúa</h3>
+        <p>Traslado seguro de tu vehículo cuando más lo necesites.</p>
+      </div>
+      <div class="service-card">
+        <img src="tuneo.webp" alt="Tuneos">
+        <h3>Tuneos</h3>
+        <p>Personalizamos tu vehículo con estilo y potencia.</p>
+      </div>
+      <div class="service-card">
+        <img src="ruta8.png" alt="Mantenimiento">
+        <h3>Reparaciones y Mantenimiento</h3>
+        <p>Mecánica general, diagnósticos y reparación garantizada.</p>
+      </div>
+      <div class="service-card">
+        <img src="rest.webp" alt="Restauraciones">
+    
+        <h3>Restauraciones</h3>
+        <p>En Ruta 68 Garage te ayudamos, somos expertos en devolver a la vida coches que estan en las ultimas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="especialidad" class="section">
+    <h2>Nuestra Especialidad</h2>
+    <p>En Ruta 68 Garage nos especializamos en tuneos personalizados. Nos destacamos por transformar vehículos comunes en auténticas máquinas únicas. Mira algunos de nuestros trabajos:</p>
+    <div class="carousel-container">
+      <div class="carousel" id="carousel1">
+        <img src="ruta1.png" alt="Tuneo 1" class="active">
+        <img src="ruta2.png" alt="Tuneo 2">
+        <img src="ruta3.png" alt="Tuneo 3">
+      </div>
+      <div class="carousel" id="carousel2">
+        <img src="ruta4.png" alt="Tuneo 4" class="active">
+        <img src="ruta5.png" alt="Tuneo 5">
+        <img src="ruta6.png" alt="Tuneo 6">
+      </div>
+      <div class="carousel" id="carousel3">
+        <img src="ruta7.png" alt="Tuneo 7" class="active">
+        <img src="ruta8.png" alt="Tuneo 8">
+        <img src="ruta9.png" alt="Tuneo 9">
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p style="color: #ff6600">&copy; 2025 Ruta 68 Garage. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function mostrarSeccion(id) {
+      const secciones = document.querySelectorAll('.section');
+      secciones.forEach(seccion => {
+        seccion.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+
+    function iniciarCarrusel(id) {
+      const carrusel = document.getElementById(id);
+      const imagenes = carrusel.querySelectorAll('img');
+      let index = 0;
+
+      setInterval(() => {
+        imagenes.forEach((img, i) => {
+          img.classList.toggle('active', i === index);
+        });
+        index = (index + 1) % imagenes.length;
+      }, 3000);
+    }
+
+    iniciarCarrusel('carousel1');
+    iniciarCarrusel('carousel2');
+    iniciarCarrusel('carousel3');
+  </script>
+</body>
+</html>
